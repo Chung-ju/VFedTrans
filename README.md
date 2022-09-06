@@ -6,10 +6,15 @@
 
 **Update 6/9/2022:** The code will soon be open source!
 
-### Requirements
+### 1. Requirements
 + Python >= 3.8
-+ PyTorch >= 1.15
++ PyTorch == 1.10.0+cu133
++ scikit-learn == 1.0.2
 + CUDA enabled computing device
+
+### 2. Overview
+
+![](assets/overview.png)
 
 ### Citation
 ```
