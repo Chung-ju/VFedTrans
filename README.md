@@ -12,4 +12,9 @@
 + CUDA enabled computing device
 
 ### Citation
-
+```
+@article{wangvertical,
+  title={Vertical Federated Knowledge Transfer via Representation Distillation},
+  author={Leye, Wang and Chongru, Huang and Xiao, Han}
+}
+```
