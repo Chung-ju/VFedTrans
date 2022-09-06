@@ -1,5 +1,5 @@
 <h1 align="center">
-  <b>VFKT</b><br>
+  <b>KT-RD</b><br>
 </h1>
 
 **Paper: Vertical Federated Knowledge Transfer via Representation Distillation**
