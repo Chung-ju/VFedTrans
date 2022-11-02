@@ -19,8 +19,10 @@
 
 ### Citation
 ```
-@article{wangvertical,
+@inproceedings{wang2022vertical,
   title={Vertical Federated Knowledge Transfer via Representation Distillation},
-  author={Leye, Wang and Chongru, Huang and Xiao, Han}
+  author={Wang, Leye and Huang, Chongru and Han, Xiao},
+  booktitle={FLIJCAI workshop},
+  year={2022}
 }
 ```
