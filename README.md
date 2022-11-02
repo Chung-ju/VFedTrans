@@ -2,9 +2,9 @@
   <b>VFedUF</b><br>
 </h1>
 
-**Paper: Vertical Federated Knowledge Transfer via Representation Distillation**
+**Paper: VFedUF: A Unified Framework of Vertical Federated Knowledge Transfer via Representation Distillation for Healthcare Collaboration**
 
-**Update 6/9/2022:** The code will soon be open source!
+**Update 2/11/2022:** The code will soon be open source!
 
 ### 1. Requirements
 + Python == 3.8.10
