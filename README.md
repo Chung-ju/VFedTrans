@@ -1,5 +1,5 @@
 <h1 align="center">
-  <b>KT-RD</b><br>
+  <b>VFedUF</b><br>
 </h1>
 
 **Paper: Vertical Federated Knowledge Transfer via Representation Distillation**
