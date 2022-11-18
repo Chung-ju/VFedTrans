@@ -2,9 +2,9 @@
   <b>VFedUF</b><br>
 </h1>
 
-**Paper: VFedUF: A Unified Framework of Vertical Federated Knowledge Transfer via Representation Distillation for Healthcare Collaboration**
+**Paper: Vertical Federated Knowledge Transfer via Representation Distillation for Healthcare Collaboration**
 
-**Update 2/11/2022:** The code will soon be open source!
+**Update 2022/11/16:** The code will soon be open source!
 
 ### 1. Requirements
 + Python == 3.8.10
@@ -16,13 +16,3 @@
 ### 2. Overview
 
 ![](assets/overview.png)
-
-### Citation
-```
-@inproceedings{wang2022vertical,
-  title={Vertical Federated Knowledge Transfer via Representation Distillation},
-  author={Wang, Leye and Huang, Chongru and Han, Xiao},
-  booktitle={FLIJCAI workshop},
-  year={2022}
-}
-```
