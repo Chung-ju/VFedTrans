@@ -2,7 +2,7 @@
   <b>VFedTrans</b><br>
 </h1>
 
-**Paper: Vertical Federated Knowledge Transfer via Representation Distillation for Healthcare Collaboration**
+**Paper: Vertical Federated Knowledge Transfer via Representation Distillation for Healthcare Collaboration Networks**
 
 **Update 2022/11/19:** The source code will be continuously updated!
 
