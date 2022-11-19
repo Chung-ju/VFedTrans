@@ -1,0 +1,16 @@
+model_params:
+  name: 'BetaVAE'
+  loss_type: 'B'
+  gamma: 10.0
+  max_capacity: 25
+  Capacity_max_iter: 10000
+  kld_weight: 0.00025
+  
+exp_params:
+  LR: 0.0005
+  weight_decay: 0.0
+  scheduler_gamma: 0.95
+  num_epochs: 50
+  batch_size: 100
+  enable_distill_penalty: True
+  lmd: 0.00001

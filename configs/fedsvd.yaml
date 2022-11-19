@@ -1,0 +1,6 @@
+model_params:
+  name: 'FedSVD'
+  random_seed: 800
+
+exp_params:
+  block_size: 10

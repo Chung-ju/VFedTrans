@@ -1,0 +1,5 @@
+dataset: "MIMIC"        # Optional: MIMIC|HAPT|TCGA|Breast
+split: "equal"          # Optional: equal|unequal
+frl: "FedSVD"           # Optional: FedSVD|VFedPCA
+lrd: "AE"               # Optional: AE|BetaVAE|GAN
+method: "Random Forest" # Optional: Random Forest|XGBoost|Neural Network|AdaBoost|KNN
