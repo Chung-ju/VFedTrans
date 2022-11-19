@@ -4,7 +4,7 @@
 
 **Paper: Vertical Federated Knowledge Transfer via Representation Distillation for Healthcare Collaboration**
 
-**Update 2022/11/16:** The code will soon be open source!
+**Update 2022/11/19:** The source code will be continuously updated!
 
 ### 1. Requirements
 + Python == 3.8.10
