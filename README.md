@@ -16,3 +16,9 @@
 ### 2. Overview
 
 ![](assets/overview.png)
+
+### 3. Run
+
+```
+./run.sh
+```
