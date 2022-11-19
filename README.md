@@ -1,5 +1,5 @@
 <h1 align="center">
-  <b>VFedUF</b><br>
+  <b>VFedTrans</b><br>
 </h1>
 
 **Paper: Vertical Federated Knowledge Transfer via Representation Distillation for Healthcare Collaboration**
