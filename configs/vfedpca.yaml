@@ -1,9 +1,5 @@
-model_params:
-  name: 'VFedPCA'
-
-exp_params:
-  iter_num: 100
-  party_num: 2
-  warm_start: False
-  period_num: 10
-  weight_scale: False
+iter_num: 100
+party_num: 2
+warm_start: False
+period_num: 10
+weight_scale: False

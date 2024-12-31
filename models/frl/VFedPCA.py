@@ -3,7 +3,8 @@ import numpy as np
 import torch
 
 class VFedPCA:
-    def __init__(self, **kwargs) -> None:
+    def __init__(self) -> None:
+        super(VFedPCA, self).__init__()
         self.fed_dis = []   # [[dis_1, dis_2, dis_3, ..., dis_c], ...], c=communication period
 
     def fed_representation_learning(self, params, data_full, clients_data_list):
@@ -21,9 +22,10 @@ class VFedPCA:
         d_list = clients_data_list # [d1, d2, ...d_p], d_p=[n, fea_num]
         p_num = params['party_num']
         ep_list, vp_list = [], []
-        print('Before:')
-        print('Task party: ', d_list[0].shape)
-        print('Data party: ', d_list[1].shape)
+        # print('Before:')
+        # print('Task party: ', d_list[0].shape)
+        # print('Data party: ', d_list[1].shape)
+        
         # start multi-shot federated learning
         if params['warm_start']:
             print("Warning: you are using Local Power Iteration with Warm Start!")
@@ -65,9 +67,9 @@ class VFedPCA:
                 up_item = mid_up.dot(mid_up.T)              # X_i x X_i
                 up_item_norm = up_item / (np.linalg.norm(up_item) + 1e-9)
                 d_list[i] = d_list[i].dot(up_item_norm)     # 4000 x X_i
-        print('After:')
-        print('Task party: ', d_list[0].shape)
-        print('Data party: ', d_list[1].shape)
+        # print('After:')
+        # print('Task party: ', d_list[0].shape)
+        # print('Data party: ', d_list[1].shape)
 
         return data_full
 

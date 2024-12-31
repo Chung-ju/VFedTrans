@@ -1,51 +1,61 @@
 import argparse
-import warnings
-warnings.filterwarnings("ignore")
-
-from models.frl import *
-from models.lrd import *
-from train_lrd import *
-from train_frl import *
-from performance import *
+import time
 from utils import *
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Process a single task!')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--dataset', type=str, default='mimic')
+    parser.add_argument('--type', type=str, default='intra')
+    parser.add_argument('--frl', type=str, default='FedSVD')
+    parser.add_argument('--lkt', type=str, default='AE')
+    parser.add_argument('--task_model', type=str, default='xgboost')
+    parser.add_argument('--latent_dim', type=int, default=2)
     parser.add_argument('--gpu', '-g', type=str, default='0', help='Choose your GPU resource.')
-
+    parser.add_argument('--seed', type=int, default=500)
     args = parser.parse_args()
+    
+    torch.manual_seed(args.seed)
+    torch.cuda.manual_seed(args.seed)
+    torch.cuda.manual_seed_all(args.seed)
+    np.random.seed(args.seed)
+    
     device = get_gpu(args.gpu)
+    
+    tp_data_dict = np.load(f'dataset/{args.dataset}/tp_{args.type}.npy', allow_pickle=True).item()
+    dp_data_dict = np.load(f'dataset/{args.dataset}/dp_{args.type}.npy', allow_pickle=True).item()
+    
+    # Federated Representation Learning
+    if os.path.exists(f'dataset/{args.dataset}/{args.frl}_{args.type}.npy'):
+        fed_dict = np.load(f'dataset/{args.dataset}/{args.frl}_{args.type}.npy', allow_pickle=True).item()
+    else:
+        frl_trainer = FRL_Trainer()
+        start_time = time.time()
+        Xs_fed = frl_trainer.train(model=args.frl, Xs=[tp_data_dict['ol_sample'].astype(np.float64), dp_data_dict['ol_sample'].astype(np.float64)])
+        end_time = time.time()
+        fed_dict = {'Xs_fed': Xs_fed}
+        np.save(f'dataset/{args.dataset}/{args.frl}_{args.type}.npy', fed_dict)
+        print('FRL time: {:.4f}s'.format(end_time - start_time))
+    print('Federated Representation Learning is done.')
 
-    task_config = load_task_config()
-    test = Performance()
-
-    print('Dataset: ', task_config['dataset'])
-    print('Split mode:', task_config['split'])
-    print('Step 1 - FRL: ', task_config['frl'])
-    print('Step 2 - LRD ', task_config['lrd'])
-    print('Step 3 - Downstream method: ', task_config['method'])
-    print('Run on ', device)
-
-    # Split data
-    X_task, y_task, X_shared, X_data = eval(task_config['split'] + '_split')(task_config['dataset'])
-    print('Task hospital: ', X_task.shape)
-    print('Data hospital: ', X_data.shape)
-    print('Shared samples', X_shared.shape)
-
-    # Step 1: Federated Representation Learning
-    frl_model_config = load_model_config(task_config['frl'])
-    frl_model = frl_models[task_config['frl']](num_features=X_shared.shape[1])
-    frl = FedRepresentationLearning(frl_model, frl_model_config)
-    Xs_fed = frl.training(X_task=X_task, X_data=X_data, X_shared=X_shared)
-    print(Xs_fed.shape)
-
-    # Step 2: Local Representation Distillation
-    lrd_model_config = load_model_config(task_config['lrd'])
-    lrd_model = lrd_models[task_config['lrd']](X_task.shape[1], Xs_fed.shape[1], **lrd_model_config['model_params'])
-    lrd = LocalRepresentationDistillation(lrd_model, lrd_model_config['exp_params'], device)
-    lrd.training_step(X_task, Xs_fed)
-
-    # Step 3
-    X_new = lrd.representation_distillation_step()
-    print('-----Result-----')
-    test.run(X_new, y_task, task_config['method'])
+    # Local Knowledge Transfer
+    if os.path.exists(f'models/{args.dataset}_{args.lkt}_{args.type}.pt'):
+        lkt_trainer = LKT_Trainer()
+        lkt_trainer.set_model(args.lkt, input_dim=tp_data_dict['nl_sample'].shape[1], latent_dim=args.latent_dim)
+        lkt_trainer.load_lkt_model(f'models/{args.dataset}_{args.lkt}_{args.type}.pt')
+        lkt_trainer.load_dt_model(fed_dict['Xs_fed'].shape[1], args.latent_dim, f'models/{args.dataset}_{args.lkt}_{args.type}_dt.pt')
+    else:
+        lkt_trainer = LKT_Trainer()
+        lkt_trainer.train(args.lkt, tp_data_dict['nl_sample'].reshape((tp_data_dict['nl_sample'].shape[0], -1)), 
+                          fed_dict['Xs_fed'], args.latent_dim, device)
+        lkt_trainer.save_model(f'models/{args.dataset}_{args.lkt}_{args.type}.pt', f'models/{args.dataset}_{args.lkt}_{args.type}_dt.pt')
+    print('Local Knowledge Transfer is done.')
+    
+    # Feature augmentation
+    X_aug = lkt_trainer.augment_feature(args.dataset, args.lkt, tp_data_dict['nl_sample'].reshape((tp_data_dict['nl_sample'].shape[0], -1)), device)
+    task_trainer = DownstreamTask(train_ratio=0.1, random_state=args.seed)
+    if args.dataset == 'leukemia' or args.dataset == 'pneumonia':
+        task_trainer.run_img(tp_data_dict['nl_sample'], X_aug, tp_data_dict['nl_label'], args.task_model, device)
+    else:
+        task_trainer.run(X_aug, tp_data_dict['nl_label'], args.dataset, args.task_model, device, search=True)
+        task_trainer.run(tp_data_dict['nl_sample'], tp_data_dict['nl_label'], args.dataset, args.task_model, device, search=False)
+    

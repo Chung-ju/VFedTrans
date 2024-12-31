@@ -1,0 +1,38 @@
+mimic:
+  ol_sample: 10000
+  ol_tp_feature: 5
+  ol_dp_feature: 5
+  nl_tp_sample: 30000
+  nl_tp_feature: 5
+cardio:
+  ol_sample: 10000
+  ol_tp_feature: 5
+  ol_dp_feature: 5
+  nl_tp_sample: 30000
+  nl_tp_feature: 5
+rna:
+  ol_sample: 200
+  ol_tp_feature: 5000
+  ol_dp_feature: 5000
+  nl_tp_sample: 400
+  nl_tp_feature: 5000
+heart:
+  ol_sample: 2000
+  ol_tp_feature: 9
+  ol_dp_feature: 5
+  nl_tp_sample: 3000
+  nl_tp_feature: 9
+sepsis:
+  ol_sample: 10000
+  ol_tp_feature: 5
+  ol_dp_feature: 5
+  nl_tp_sample: 30000
+  nl_tp_feature: 5
+leukemia:
+  ol_sample: 5000
+  nl_tp_sample: 5000
+  nl_tp_feature: 64
+pneumonia:
+  ol_sample: 200
+  nl_tp_sample: 1
+  nl_tp_feature: 32
