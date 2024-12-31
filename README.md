@@ -14,8 +14,13 @@
 conda install --file requirements.txt
 ```
 
+### 3. Preprocess
+```
+python preprocess.py --dataset mimic --type intra
+```
+
 ### 3. Run
 
 ```
-python --dataset mimic --type intra --frl FedSVD --lkt AE --task_model xgboost
+python main.py --dataset mimic --type intra --frl FedSVD --lkt AE --task_model xgboost
 ```
