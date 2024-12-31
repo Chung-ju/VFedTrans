@@ -2,7 +2,7 @@
   <b>Unitrans</b><br>
 </h1>
 
-**Paper: UniTrans: A Unified Vertical Federated Knowledge Transfer Framework for Vulnerable Patient Groups**
+**Paper: UniTrans: A Unified Vertical Federated Knowledge Transfer Framework for Enhancing Cross-Hospital Collaboration**
 
 ### 1. Overview
 
